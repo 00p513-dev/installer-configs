@@ -1,0 +1,35 @@
+name: "PHH AOSP arm64 AB (SAR)"
+codename: "phh_arm64-bvS"
+formfactor: "phone"
+aliases: []
+doppelgangers: []
+user_actions:
+  bootloader:
+    title: "Reboot to Bootloader"
+    description: "Instructions depend on your device. This is usually power+volume down"
+    image: "phone_power_down"
+    button: true
+operating_systems:
+  - name: "Roar"
+    options:
+      - var: "vbmeta"
+        name: "vbmeta"
+        tooltip: "Flash a generic vbmeta"
+        type: "checkbox"
+        value: false
+    prerequisites: []
+    steps:
+    - actions:
+          - core:download:
+              group: "system"
+              files:
+                - url: "https://github.com/phhusson/treble_experimentations/releases/download/v300.j/system-roar-arm64-ab-vanilla.img.xz"
+    - actions:
+          - fastboot:flash:
+              partitions:
+                - partition: "system"
+                  file: "system.img"
+                  group: "system"
+    - actions:
+          - adb:reboot:
+              to_state: "system"
